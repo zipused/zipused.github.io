@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zipused</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="hand.png" type="image/png"> <!-- Added favicon link -->
+</head>
+<body>
+    <div class="container">
+        <div class="profile-header">
+            <img src="pfp.jpg" alt="Profile Picture" class="profile-pic">
+            <div class="profile-info">
+                <h1 class="username">zip</h1>
+                <p class="handle">@zipused</p>
+                <p class="bio">hey im zip!</p>
+            </div>
+        </div>
+        <div class="social-buttons">
+            <a id="discord-button" href="#" onclick="copyToClipboard('zipused'); return false;">
+                <img src="discord.png" alt="Discord" class="social-icon">
+            </a>
+            <a href="https://instagram.com/zipused/" target="_blank">
+                <img src="instagram.png" alt="Instagram" class="social-icon">
+            </a>
+            <a href="https://www.roblox.com/users/43196922/profile" target="_blank">
+                <img src="roblox.png" alt="Roblox" class="social-icon roblox-icon">
+            </a>
+        </div>
+        <div class="time-wrapper">
+            <p id="london-time" class="london-time">🕓 Loading...</p>
+        </div>
+    </div>
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Copied to clipboard: ' + text);
+            }, (err) => {
+                console.error('Error copying text: ', err);
+            });
+        }
+
+        function updateLondonTime() {
+            const londonTimeElement = document.getElementById('london-time');
+            const now = new Date();
+            const options = { timeZone: 'Europe/London', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+            const formatter = new Intl.DateTimeFormat('en-GB', options);
+            const parts = formatter.formatToParts(now);
+
+            // Extract and format hour, minute, and second
+            let hour = '';
+            let minute = '';
+            let second = '';
+            parts.forEach(part => {
+                switch (part.type) {
+                    case 'hour':
+                        hour = part.value.replace(/^0/, ''); // Remove leading zero if present
+                        break;
+                    case 'minute':
+                        minute = part.value.padStart(2, '0'); // Add leading zero if needed
+                        break;
+                    case 'second':
+                        second = part.value.padStart(2, '0'); // Add leading zero if needed
+                        break;
+                }
+            });
+
+            const formattedTime = `${hour}:${minute}:${second}`;
+            londonTimeElement.textContent = `🕓 ${formattedTime}`;
+        }
+
+        setInterval(updateLondonTime, 1000); // Update the time every second
+        updateLondonTime(); // Initial call to display the time immediately
+    </script>
+</body>
+</html>
